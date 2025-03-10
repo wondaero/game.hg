@@ -18,7 +18,7 @@
 
         class HG {
             constructor({playerLen = 4, ...param}){
-                this.dur = 480;
+                this.dur = 1000;
                 this.level = 1;
 
                 this.init(playerLen);   //1회
@@ -38,6 +38,7 @@
             }
 
             setUI(){
+                const board = document.getElementById('board');
                 const tmpl = () => {
                     const div = document.createElement('div');
                     div.dataset.num = '';
@@ -46,9 +47,18 @@
                     return div;
                 }
 
-                document.getElementById('board').innerHTML = '';
+                const width = window.innerWidth - 40;
+                const height = window.innerHeight - 210;
+                let baseSize = width > height ? height : width;
+                const curSize = board.clientWidth;
+
+                board.style.transform = `scale(${baseSize / curSize})`;
+
+
+
+                board.innerHTML = '';
                 for(let i = 0; i < this.playerLen; i++){
-                    document.getElementById('board').appendChild(tmpl());
+                    board.appendChild(tmpl());
                     document.querySelectorAll('#board > div')[i].style.transform = `rotate(${(360 / this.playerLen * i) + 180}deg)`;
                 }
             }
@@ -61,20 +71,26 @@
                     if($this.lazy < timeStamp){
                         if($this.hasFive){
                             $this.timer();
-                            
                             return;
                         }
 
                         const turn = $this.turn % $this.playerLen;
-                        document.querySelectorAll('#board > div')[turn].dataset.num = getRandomNum(1, 5);
-                        document.querySelectorAll('#board > div')[turn].dataset.color = $this.colors[getRandomNum(0, $this.colors.length - 1)];
+                        const thisCard = document.querySelectorAll('#board > div')[turn];
+
+                        document.querySelectorAll('#board > div').forEach((card) => {
+                            card.classList.remove('on');
+                        })
+
+                        thisCard.classList.add('on');
+                        thisCard.dataset.num = getRandomNum(1, 5);
+                        thisCard.dataset.color = $this.colors[getRandomNum(0, $this.colors.length - 1)];
                         // $this.lazy = timeStamp + getRandomNum(500, 1000);
                         
                         
 
                         $this.hasFive = $this.checkFive();
 
-                        $this.lazy = timeStamp + ($this.hasFive ? 0 : 500);
+                        $this.lazy = timeStamp + ($this.hasFive ? 0 : 1000);
 
 
                         $this.turn++;
@@ -96,16 +112,15 @@
                         this.play();
                         this.level++;
                     }else{
-                        let msg =  '느려!\n(' + this.level + '까지 깸)';
+                        let msg =  '느려!\n(' + (this.level - 1) + '탄까지 깸)';
                         if(this.level === 1){
-                            msg = '느려\n(하나도 못깸)';
+                            msg = '느려!\n(하나도 못깸)';
                         }
                         alert(msg);
                     }
 
-                }, this.dur -= 10);
+                }, this.dur -= 20);
             }
-
 
             checkFive(){
                 const calcedObj = {
@@ -132,9 +147,9 @@
 
             clickHandler(){
                 if(!this.checkFive()){
-                    let msg =  '땡!\n(' + this.level + '까지 깸)';
+                    let msg =  '땡!\n(' + (this.level - 1) + '탄까지 깸)';
                     if(this.level === 1){
-                        msg = '땡\n(하나도 못깸)';
+                        msg = '땡!\n(하나도 못깸)';
                     }
                     alert(msg);
                     window.location.reload();

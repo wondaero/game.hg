@@ -48,6 +48,17 @@ body{
   height: 220px;
   margin: 30px auto;
   position: relative;
+  transform-origin: 50% 100%;
+}
+.board:before{
+  content: '';
+  border-radius: 50%;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  border: 1px solid #eee;
 }
 .board > div{
   position: absolute;
@@ -57,6 +68,10 @@ body{
   bottom: 0;
   display: flex;
   justify-content: center;
+}
+.board > div.on > div{
+  box-shadow: 0 0 20px #0f0;
+  border: 2px solid #0f0;
 }
 .board > div > div{
   width: 30px;
@@ -69,6 +84,7 @@ body{
 }
 .board > div[data-num=""] > div{
   border: 1px dotted #888;
+  background: #fff;
 }
 [data-num] > div > span:before,
 [data-num] > div > span:after{
