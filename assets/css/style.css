@@ -1,0 +1,161 @@
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+}
+
+html, body{
+  height: 100%;
+  font-family: Pretendard;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+}
+.board{
+  width: 220px;
+  height: 220px;
+  margin: 30px auto;
+  position: relative;
+}
+.board > div{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+}
+.board > div > div{
+  width: 30px;
+  height: 40px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.board > div[data-num=""] > div{
+  border: 1px dotted #888;
+}
+[data-num] > div > span:before,
+[data-num] > div > span:after{
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border-radius: 50%;
+}
+[data-num] > div > span{
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+[data-num="1"] > div > span:nth-of-type(1){background: #fff;}
+[data-num="2"] > div > span:nth-of-type(1):before{
+  top: -13px;
+  left: -8px;
+}
+[data-num="2"] > div > span:nth-of-type(1):after{
+  bottom: -13px;
+  right: -8px;
+}
+[data-num="2"] > div > span:nth-of-type(2):before,
+[data-num="2"] > div > span:nth-of-type(2):after{
+  background: 0;
+}
+[data-num="3"] > div > span:nth-of-type(1){background: #fff;}
+[data-num="3"] > div > span:nth-of-type(1):before{
+  top: -13px;
+  left: -8px;
+}
+[data-num="3"] > div > span:nth-of-type(1):after{
+  bottom: -13px;
+  right: -8px;
+}
+[data-num="4"] > div > span:nth-of-type(1):after,
+[data-num="5"] > div > span:nth-of-type(1):after{
+  top: -13px;
+  left: -8px;
+}
+[data-num="4"] > div > span:nth-of-type(1):before,
+[data-num="5"] > div > span:nth-of-type(1):before{
+  top: -13px;
+  right: -8px;
+}
+[data-num="4"] > div > span:nth-of-type(2):after,
+[data-num="5"] > div > span:nth-of-type(2):after{
+  bottom: -13px;
+  left: -8px;
+}
+[data-num="4"] > div > span:nth-of-type(2):before,
+[data-num="5"] > div > span:nth-of-type(2):before{
+  bottom: -13px;
+  right: -8px;
+}
+[data-num="5"] > div > span:nth-of-type(2){background: #fff;}
+
+
+
+
+
+[data-color="hotpink"] > div{background: hotpink;}
+[data-color="navy"] > div{background: navy;}
+[data-color="orange"] > div{background: orange;}
+[data-color="cadetblue"] > div{background: cadetblue;}
+
+footer{
+  text-align: center;
+  margin-bottom: 50px;
+}
+footer button{
+  vertical-align: top;
+  width: 120px;
+  height: 80px;
+  border-radius: 10px;
+  background: lavender;
+  color: #222;
+  font-size: 20px;
+  border: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+}
+footer button:active{
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, .2);
+}

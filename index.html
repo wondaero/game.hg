@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>할리갈리</title>
+    <Link rel="stylesheet" href="./assets/css/normalize.css" />
+    <Link rel="stylesheet" href="./assets/css/style.css" />
+</head>
+<body>
+    <div class="board" id="board"></div>
+    <footer>
+        <button>BUTTON</button>
+    </footer>
+
+    <script>
+        const getRandomNum = (mn, mx) => Math.floor(Math.random() * (mx - mn + 1)) + mn;
+
+        class HG {
+            constructor({playerLen = 4, ...param}){
+                this.dur = 480;
+                this.level = 1;
+
+                this.init(playerLen);   //1회
+
+                this.setUI();
+                this.play();
+            }
+
+            init(playerLen){
+                this.raf = '';
+                this.turn = 0;
+                this.playerLen = playerLen;
+                this.lazy = 0;
+                this.colors = ['orange', 'navy', 'cadetblue', 'hotpink'],
+                this.hasFive = false;
+                this.click = false;
+            }
+
+            setUI(){
+                const tmpl = () => {
+                    const div = document.createElement('div');
+                    div.dataset.num = '';
+                    div.innerHTML = `<div><span></span><span></span></div>`;
+
+                    return div;
+                }
+
+                document.getElementById('board').innerHTML = '';
+                for(let i = 0; i < this.playerLen; i++){
+                    document.getElementById('board').appendChild(tmpl());
+                    document.querySelectorAll('#board > div')[i].style.transform = `rotate(${(360 / this.playerLen * i) + 180}deg)`;
+                }
+            }
+
+            play(){
+                const $this = this;
+                setCard();
+
+                function setCard(timeStamp){
+                    if($this.lazy < timeStamp){
+                        if($this.hasFive){
+                            $this.timer();
+                            
+                            return;
+                        }
+
+                        const turn = $this.turn % $this.playerLen;
+                        document.querySelectorAll('#board > div')[turn].dataset.num = getRandomNum(1, 5);
+                        document.querySelectorAll('#board > div')[turn].dataset.color = $this.colors[getRandomNum(0, $this.colors.length - 1)];
+                        // $this.lazy = timeStamp + getRandomNum(500, 1000);
+                        
+                        
+
+                        $this.hasFive = $this.checkFive();
+
+                        $this.lazy = timeStamp + ($this.hasFive ? 0 : 500);
+
+
+                        $this.turn++;
+                    }
+
+
+
+                    $this.raf = window.requestAnimationFrame(setCard);
+                }
+            }
+
+            
+
+            timer(){
+                setTimeout(() => {
+                    if(this.click){
+                        this.init(4);
+                        this.setUI();
+                        this.play();
+                        this.level++;
+                    }else{
+                        let msg =  '느려!\n(' + this.level + '까지 깸)';
+                        if(this.level === 1){
+                            msg = '느려\n(하나도 못깸)';
+                        }
+                        alert(msg);
+                    }
+
+                }, this.dur -= 10);
+            }
+
+
+            checkFive(){
+                const calcedObj = {
+                    orange: 0,
+                    navy: 0,
+                    cadetblue: 0,
+                    hotpink: 0
+                }
+
+                document.querySelectorAll('#board > [data-color]').forEach((card) => {
+                    calcedObj[card.dataset.color] += +card.dataset.num;
+                });
+
+                let hasFive = false;
+                for(let key in calcedObj){
+                    if(calcedObj[key] === 5){
+                        hasFive = true;
+                        break;
+                    }
+                }
+
+                return hasFive;
+            }
+
+            clickHandler(){
+                if(!this.checkFive()){
+                    let msg =  '땡!\n(' + this.level + '까지 깸)';
+                    if(this.level === 1){
+                        msg = '땡\n(하나도 못깸)';
+                    }
+                    alert(msg);
+                    window.location.reload();
+                }else{
+                    this.click = true;
+                }
+            }
+
+            
+        }
+
+        const hg = new HG({
+            playerLen: 4    //2~8
+        });
+
+        document.querySelector('button').addEventListener('click', () => {
+            hg.clickHandler();
+        });
+    </script>
+
+    
+</body>
+</html>
